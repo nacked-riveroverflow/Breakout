@@ -23,26 +23,30 @@ public class SplashScreen extends JWindow
         setSize(300,500);
 
         JPanel panel = new JPanel();
+        panel.setLayout(null);
         panel.setBackground(Color.lightGray);
 
         ct.add(panel);
         prog_bar = new JProgressBar();
 
         JLabel label1 = new JLabel("CS349 Breakout Game");
-        label1.setFont(new Font("Ariel",Font.BOLD,16));
-        label1.setBounds(85,20,300,450);
+        label1.setFont(new Font("Ariel",Font.BOLD,18));
+        label1.setBounds(40,20,300,450);
         panel.add(label1);
 
         JLabel label2 = new JLabel("Author Name: Hezhi(Winston) Zhu");
-        label1.setFont(new Font("Ariel",Font.BOLD,12));
+        label2.setBounds(40,60,300,450);
+        label2.setFont(new Font("Ariel",Font.BOLD,12));
         panel.add(label2);
 
         JLabel label3 = new JLabel("Date: 2019.06.20");
-        label1.setFont(new Font("Ariel",Font.BOLD,12));
+        label3.setFont(new Font("Ariel",Font.BOLD,12));
+        label3.setBounds(40,70,300,450);
         panel.add(label3);
 
         JButton bt = new JButton();
         bt.setText("Continue");
+        bt.setBounds(85,350,100,20);
         bt.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent event) {
                 game_wrapper();

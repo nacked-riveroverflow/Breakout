@@ -12,11 +12,6 @@ public class A2
     public static void main(String[]args)
     {
         SplashScreen.sp = new SplashScreen();
-//        try {
-//            Splash sp = new Splash();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
     }
 }
