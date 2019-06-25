@@ -67,7 +67,7 @@ public class SplashScreen extends JWindow
 
     public void game_wrapper(){
 
-        gm = new Game();
+
 
         JFrame jf = new JFrame("Winston's Breakout Game");
         jf.setVisible(true);
@@ -75,7 +75,10 @@ public class SplashScreen extends JWindow
         jf.setBackground(Color.lightGray);
         jf.setResizable(true);
         jf.setMinimumSize(new Dimension(1280,768));
+        jf.setPreferredSize(new Dimension(1280,768));
         jf.setLayout(new BorderLayout());
+
+        gm = new Game(jf.getWidth(),jf.getHeight());
         jf.add(gm,BorderLayout.CENTER);
     }
 
