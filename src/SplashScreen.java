@@ -10,6 +10,7 @@ public class SplashScreen extends JWindow
     private static Timer timer;
     private static JProgressBar prog_bar;
     public static SplashScreen sp;
+    public static Game gm;
 
     public void loading_bar(){
 
@@ -50,7 +51,7 @@ public class SplashScreen extends JWindow
         bt.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent event) {
                 game_wrapper();
-                sp.setVisible(false);
+                ct.setVisible(false);
             }
         });
         panel.add(bt);
@@ -66,7 +67,7 @@ public class SplashScreen extends JWindow
 
     public void game_wrapper(){
 
-        Game gm = new Game();
+        gm = new Game();
 
         JFrame jf = new JFrame("Winston's Breakout Game");
         jf.setVisible(true);

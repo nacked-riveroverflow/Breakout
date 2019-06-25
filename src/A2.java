@@ -8,10 +8,10 @@ import java.io.IOException;
 
 public class A2
 {
-
+    public static SplashScreen sp;
     public static void main(String[]args)
     {
-        SplashScreen.sp = new SplashScreen();
+        sp = new SplashScreen();
 
     }
 }
