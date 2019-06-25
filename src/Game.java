@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 
-import static javax.imageio.ImageIO.read;
 
 public class Game extends JPanel {
 
@@ -14,6 +13,11 @@ public class Game extends JPanel {
     public static int lives = 3;
     public static int wid;
     public static int hei;
+    public static Ball ball;
+    public static Boolean running = false;
+    public Model gameThread;
+    public static double last_update;
+    public static int FPS = 40;
 
     public Game(int widt, int heig){
         wid = widt;
@@ -37,7 +41,11 @@ public class Game extends JPanel {
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){/* Pause and Resume */
                     paused = !paused;
                 } else if (e.getKeyCode() == KeyEvent.VK_Q){/*Quit the Game */
+                    running = false;
                     System.exit(0);
+                } else if (e.getKeyCode() == KeyEvent.VK_SPACE && !running){
+                    running = true;
+                    game_run();
                 }
             }
         });
@@ -61,9 +69,20 @@ public class Game extends JPanel {
 
         g.drawImage(pencil_image,1,1,pencil.getIconWidth(),pencil.getIconHeight(),this);
         mv.draw_mover(g);
+        ball.draw_ball(g);
+
+    }
+
+    public void game_run(){
+        //Rewrite
+        if (gameThread != null) if(gameThread.isAlive()) gameThread.interrupt();
+        reset();
+        gameThread = new Model(this);
+        gameThread.start();
     }
 
     public void reset(){
         mv = new Mover(wid,hei);
+        ball = new Ball();
     }
 }

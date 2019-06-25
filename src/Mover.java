@@ -15,12 +15,15 @@ public class Mover {
     public void draw_mover(Graphics g2){
         g2.setColor(Color.lightGray);
         g2.fillRect(left_pos.x, left_pos.y-height/2 - 100, width, height);
-        System.out.println("Now the mouse is at" + left_pos.x );
-        System.out.println("Now the mouse is at" + left_pos.y );
 
+    }
 
-
-
-
+    public boolean hit_test(Rectangle rc){
+        Rectangle mover_rec = new Rectangle(left_pos.x, left_pos.y-height/2 - 100, width, height);
+        if(mover_rec.intersects(rc)){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
