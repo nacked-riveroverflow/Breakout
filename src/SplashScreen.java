@@ -1,46 +1,78 @@
-import javax.swing.JWindow;
-import javax.swing.ImageIcon;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 
 public class SplashScreen extends JWindow
 {
 
-    Image img=Toolkit.getDefaultToolkit().getImage("images/pipu.jpg");
+    private static int counter;
+    private static Timer timer;
+    private static JProgressBar prog_bar;
+    public static SplashScreen sp;
 
-    ImageIcon imgicon=new ImageIcon(img);
+    public void loading_bar(){
+
+
+    }
+
 
     public SplashScreen()
     {
-        try
-        {
+        Container ct = getContentPane();
+        setSize(300,500);
 
-            setSize(1024,768);
-            setLocationRelativeTo(null);
-            //show();
-            Thread.sleep(5000);
-            dispose();
-            javax.swing.JOptionPane.showMessageDialog((java.awt.Component)
-                            null,"Welcome", "Welcome Screen:",
-                    javax.swing.JOptionPane.DEFAULT_OPTION);
-        }
-        catch(Exception exception)
-        {
-            javax.swing.JOptionPane.showMessageDialog((java.awt.Component)
-                            null,"Error"+exception.getMessage(), "Error:",
-                    javax.swing.JOptionPane.DEFAULT_OPTION);
-        }
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.lightGray);
+
+        ct.add(panel);
+        prog_bar = new JProgressBar();
+
+        JLabel label1 = new JLabel("CS349 Breakout Game");
+        label1.setFont(new Font("Ariel",Font.BOLD,16));
+        label1.setBounds(85,20,300,450);
+        panel.add(label1);
+
+        JLabel label2 = new JLabel("Author Name: Hezhi(Winston) Zhu");
+        label1.setFont(new Font("Ariel",Font.BOLD,12));
+        panel.add(label2);
+
+        JLabel label3 = new JLabel("Date: 2019.06.20");
+        label1.setFont(new Font("Ariel",Font.BOLD,12));
+        panel.add(label3);
+
+        JButton bt = new JButton();
+        bt.setText("Continue");
+        bt.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent event) {
+                game_wrapper();
+                sp.setVisible(false);
+            }
+        });
+        panel.add(bt);
+
+
+
+//        JLabel label1 = new JLabel("CS349 Breakout Game");
+//        label1.setFont(new Font("Ariel",Font.BOLD,12));
+//        panel.add(label1);
+        setVisible(true);
+        setLocationRelativeTo(null);
     }
 
-    public void paint(Graphics g)
-    {
-        g.drawImage(img,0,0,this);
+    public void game_wrapper(){
+
+        Game gm = new Game();
+
+        JFrame jf = new JFrame("Winston's Breakout Game");
+        jf.setVisible(true);
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.setBackground(Color.lightGray);
+        jf.setResizable(true);
+        jf.setMinimumSize(new Dimension(1280,768));
+        jf.setLayout(new BorderLayout());
+        jf.add(gm,BorderLayout.CENTER);
     }
 
-    public static void main(String[]args)
-    {
-        SplashScreen sp=new SplashScreen();
-    }
+
 }

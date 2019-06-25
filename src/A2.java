@@ -6,15 +6,17 @@ import java.awt.Toolkit;
 import java.io.IOException;
 
 
-public class A2 extends JWindow
+public class A2
 {
 
     public static void main(String[]args)
     {
-        try {
-            Splash sp = new Splash();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SplashScreen.sp = new SplashScreen();
+//        try {
+//            Splash sp = new Splash();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
     }
 }
