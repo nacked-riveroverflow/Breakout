@@ -1,6 +1,8 @@
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Mover {
+public class Mover implements IView {
     public static int width =150;
     public static int height = 15;
     Point left_pos;
@@ -25,5 +27,11 @@ public class Mover {
         } else {
             return false;
         }
+    }
+
+
+    @Override
+    public void updateView() {
+
     }
 }

@@ -78,6 +78,8 @@ public class Game extends JPanel {
         if (gameThread != null) if(gameThread.isAlive()) gameThread.interrupt();
         reset();
         gameThread = new Model(this);
+        gameThread.addView(ball);
+        gameThread.addView(mv);
         gameThread.start();
     }
 

@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Ball {
-    float vol = 0.3f ;
+public class Ball implements IView {
+    float vol = 0.6f ;
     Point pos = new Point(Game.wid / 2, Game.hei / 2);
-    float delta = 1 / 1000000; //mills
+    float delta = 1000000; //mills
     public int move_x = 1;
     public int move_y = 1;
     public static int r = 10;
@@ -50,4 +52,8 @@ public class Ball {
 
     }
 
+    @Override
+    public void updateView() {
+        //delta_move();
+    }
 }
