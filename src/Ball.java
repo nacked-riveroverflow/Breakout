@@ -46,10 +46,9 @@ public class Ball implements IView {
             Game.temp_dead = true;
             pos = new Point(Game.wid / 2, Game.hei / 2);
             SplashScreen.gm.repaint();
-            //SplashScreen.gm.repaint();
-            //SplashScreen.gm.gameThread.notifyObservers();
             if(Game.lives <= 0){
-
+                A2.sp.jf.setVisible(false);
+                EndScreen ed = new EndScreen();
             }
             return;
         }

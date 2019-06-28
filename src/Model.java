@@ -31,7 +31,10 @@ public class Model extends Thread {
                     }
                     gm.new_lv = true;
                     gm.repaint();
-
+                }
+                if(Game.won_game){
+                    A2.sp.jf.setVisible(false);
+                    EndScreen ed = new EndScreen();
                 }
             }
         };

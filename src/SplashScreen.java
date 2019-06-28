@@ -12,11 +12,6 @@ public class SplashScreen extends JWindow
     public static Game gm;
     public static JFrame jf;
 
-    public void loading_bar(){
-
-
-    }
-
 
     public SplashScreen()
     {
@@ -39,7 +34,7 @@ public class SplashScreen extends JWindow
         label2.setFont(new Font("Ariel",Font.BOLD,12));
         panel.add(label2);
 
-        JLabel label3 = new JLabel("Date: 2019.06.20");
+        JLabel label3 = new JLabel("Made Date: 2019.06.20");
         label3.setFont(new Font("Ariel",Font.BOLD,12));
         label3.setBounds(40,70,300,450);
         panel.add(label3);

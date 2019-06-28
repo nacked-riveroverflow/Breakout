@@ -19,6 +19,7 @@ public class Game extends JPanel implements IView{
     public static Boolean running = false;
     public static Boolean temp_dead = false;
     public static Boolean new_lv = false;
+    public static Boolean won_game = false;
     public Model gameThread;
     /*Implemented two timers, one for ballmove(), another for repaint() */
     public static double last_move;
@@ -35,6 +36,9 @@ public class Game extends JPanel implements IView{
         reset();
         this.setFocusable(true);
 
+        /**************************************************************************************************************
+         **************************************************MOUSE and Key EVENTS****************************************
+         **************************************************************************************************************/
 
         this.addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e){
@@ -55,18 +59,34 @@ public class Game extends JPanel implements IView{
                     repaint();//Check if this works
                 } else if (e.getKeyCode() == KeyEvent.VK_Q){/*Quit the Game */
                     running = false;
-                    System.exit(0);
+                    A2.sp.jf.setVisible(false);
+                    EndScreen ed = new EndScreen();
                 } else if (e.getKeyCode() == KeyEvent.VK_SPACE && !running){
                     running = true;
                     game_run();
+                }else if (e.getKeyCode() == KeyEvent.VK_2){
+                    System.out.println("set to speed 2");
+                    Ball.vol = 0.6f;
+                }else if (e.getKeyCode() == KeyEvent.VK_1){
+                    System.out.println("set to speed 1");
+                    Ball.vol = 0.3f;
+                }else if (e.getKeyCode() == KeyEvent.VK_3){
+                    System.out.println("set to speed 3");
+                    Ball.vol = 1f;
+                /*Cheating Function */
+                }else if (e.getKeyCode() == KeyEvent.VK_4){
+                    System.out.println("set Paddle Size to 4");
+                    Mover.width = A2.sp.jf.getSize().width / 10;
+                }else if (e.getKeyCode() == KeyEvent.VK_5){
+                    System.out.println("set Paddle Size to 5");
+                    Mover.width = (int)(A2.sp.jf.getSize().width / 7.5);
+                }else if (e.getKeyCode() == KeyEvent.VK_6){
+                    System.out.println("set Paddle Size to 6");
+                    Mover.width = (int)(A2.sp.jf.getSize().width / 5);
                 }
             }
         });
     }
-
-    /**************************************************************************************************************
- **************************************************MOUSE and Key EVENTS****************************************
- **************************************************************************************************************/
 
     @Override
     public void paint(Graphics g) {
@@ -153,7 +173,8 @@ public class Game extends JPanel implements IView{
         } else if (lv == 5){
             return Color.blue.brighter();
         } else {
-            return Color.pink;
+            won_game = true;
+            return Color.lightGray;
         }
     }
 
