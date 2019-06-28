@@ -8,9 +8,9 @@ public class SplashScreen extends JWindow
 
     private static int counter;
     private static Timer timer;
-    private static JProgressBar prog_bar;
     public static SplashScreen sp;
     public static Game gm;
+    public static JFrame jf;
 
     public void loading_bar(){
 
@@ -28,7 +28,6 @@ public class SplashScreen extends JWindow
         panel.setBackground(Color.lightGray);
 
         ct.add(panel);
-        prog_bar = new JProgressBar();
 
         JLabel label1 = new JLabel("CS349 Breakout Game");
         label1.setFont(new Font("Ariel",Font.BOLD,18));
@@ -69,7 +68,7 @@ public class SplashScreen extends JWindow
 
 
 
-        JFrame jf = new JFrame("Winston's Breakout Game");
+        jf = new JFrame("Winston's Breakout Game");
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setBackground(Color.lightGray);
@@ -79,7 +78,7 @@ public class SplashScreen extends JWindow
         jf.setSize(new Dimension(1280,668));
         jf.setLayout(new BorderLayout());
 
-        gm = new Game(jf.getPreferredSize().width,jf.getPreferredSize().height);
+        gm = new Game(jf.getSize().width,jf.getSize().height);
         jf.add(gm,BorderLayout.CENTER);
     }
 

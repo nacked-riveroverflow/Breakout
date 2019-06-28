@@ -4,10 +4,10 @@ import java.util.Observer;
 
 public class Ball implements IView {
     public static float vol = 0.3f ;
-    Point pos ;
+    public Point pos;
     float delta = 1000000; //mills
-    public int move_x = 1;
-    public int move_y = 1;
+    public static int move_x = 1;
+    public static int move_y = 1;
     public static int r = 10;
     public static int global_wei;
     public static int global_hei;
@@ -59,6 +59,16 @@ public class Ball implements IView {
         if(hitted){
             Game.game_score++;
             move_y *= -1;
+        }
+
+        for(int i = 0; i < Game.b_list.size();i++){
+            Brick get_b = Game.b_list.get(i);
+            get_b.rebound(ball_area);
+
+            if(get_b.hitted){
+                Game.b_list.remove(i);
+            }
+
         }
 
         //SplashScreen.gm.repaint();

@@ -1,5 +1,7 @@
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,8 +18,20 @@ public class Model extends Thread {
         TimerTask task = new TimerTask()  {
             @Override
             public void run() {
-                if(!Game.paused && Game.running) {
+                if(!Game.paused && Game.running && !Game.new_lv) {
                     gm.ball.delta_move();
+                }
+                if(Game.b_list.isEmpty()){
+                    gm.level++;
+                    gm.brick_line(gm.num_per_row);
+                    gm.paused = !gm.paused;
+                    gm.ball.pos = new Point(A2.sp.jf.getWidth()/2, A2.sp.jf.getHeight()/2);
+                    if(gm.ball.move_y < 0){
+                        gm.ball.move_y *= -1;
+                    }
+                    gm.new_lv = true;
+                    gm.repaint();
+
                 }
             }
         };
