@@ -62,16 +62,16 @@ public class SplashScreen extends JWindow
     public void game_wrapper(){
 
 
-
         jf = new JFrame("Winston's Breakout Game");
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setBackground(Color.lightGray);
         jf.setResizable(true);
         jf.setMinimumSize(new Dimension(1000,668));
-        jf.setPreferredSize(new Dimension(1280,668));
-        jf.setSize(new Dimension(1280,668));
+        jf.setPreferredSize(new Dimension(1400,668));
+        jf.setSize(new Dimension(1400,668));
         jf.setLayout(new BorderLayout());
+
 
         gm = new Game(jf.getSize().width,jf.getSize().height);
         //gm.refresh(jf.getSize().width,jf.getSize().height);

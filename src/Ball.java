@@ -45,6 +45,7 @@ public class Ball implements IView {
             Game.paused = true;
             Game.temp_dead = true;
             pos = new Point(Game.wid / 2, Game.hei / 2);
+            move_x = 1;
             SplashScreen.gm.repaint();
             if(Game.lives <= 0){
                 A2.sp.jf.setVisible(false);
@@ -52,7 +53,6 @@ public class Ball implements IView {
             }
             return;
         }
-
 
         Rectangle ball_area = new Rectangle(pos.x - r, pos.y - r, 2*r, 2*r);
         Boolean hitted = A2.sp.gm.mv.hit_test(ball_area);
@@ -75,10 +75,6 @@ public class Ball implements IView {
             }
 
         }
-
-        //SplashScreen.gm.repaint();
-
-
     }
 
     public void draw_ball(Graphics g2){

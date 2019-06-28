@@ -29,6 +29,15 @@ public class Mover implements IView {
         }
     }
 
+    public boolean hit_test_side(Rectangle rc){
+        Rectangle mover_rec = new Rectangle(left_pos.x, left_pos.y-height/2 -  Game.hei/12, width, height);
+        if(mover_rec.intersects(rc)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public void updateView() {

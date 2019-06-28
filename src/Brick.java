@@ -45,6 +45,9 @@ public class Brick {
         g2.setColor(b_color);
         g2.fillRect(pos.x,pos.y,wid,hei);
 
+        /*This piece of code is found online for printing a brick like shape with
+        * gradual changes */
+
         for (int i=0; i< hei/4; i++) {
             g2.setColor(b_color.darker());
             g2.drawLine(pos.x+i, pos.y+hei-i, pos.x+wid-1, pos.y+hei-i);

@@ -20,6 +20,7 @@ public class Game extends JPanel implements IView{
     public static Boolean temp_dead = false;
     public static Boolean new_lv = false;
     public static Boolean won_game = false;
+    public static Boolean cheat_mode = false;
     public Model gameThread;
     /*Implemented two timers, one for ballmove(), another for repaint() */
     public static double last_move;
@@ -28,6 +29,7 @@ public class Game extends JPanel implements IView{
     public static ArrayList<Brick> b_list;
     public static int level = 1;
     public int num_per_row = 10;
+
 
     /*For Resizing */
     public int SCALEX = (int) Math.ceil((double) wid / 900);
@@ -78,29 +80,52 @@ public class Game extends JPanel implements IView{
                     System.out.println("set to speed 3");
                     Ball.vol = 1f;
                 /*Cheating Function */
-                }else if (e.getKeyCode() == KeyEvent.VK_4){
+                }else if (e.getKeyCode() == KeyEvent.VK_4 && cheat_mode){
                     System.out.println("set Paddle Size to 4");
                     Mover.width = A2.sp.jf.getSize().width / 10;
-                }else if (e.getKeyCode() == KeyEvent.VK_5){
+                }else if (e.getKeyCode() == KeyEvent.VK_5 && cheat_mode){
                     System.out.println("set Paddle Size to 5");
                     Mover.width = (int)(A2.sp.jf.getSize().width / 7.5);
-                }else if (e.getKeyCode() == KeyEvent.VK_6){
+                }else if (e.getKeyCode() == KeyEvent.VK_6 && cheat_mode){
                     System.out.println("set Paddle Size to 6");
                     Mover.width = (int)(A2.sp.jf.getSize().width / 5);
-                }else if (e.getKeyCode() == KeyEvent.VK_7){
+                }else if (e.getKeyCode() == KeyEvent.VK_7 && cheat_mode){
                     System.out.println("set Ball Size to 7");
                     Ball.r = 10;
-                }else if (e.getKeyCode() == KeyEvent.VK_8){
+                }else if (e.getKeyCode() == KeyEvent.VK_8 && cheat_mode){
                     System.out.println("set Ball Size to 8");
                     Ball.r = 25;
-                }else if (e.getKeyCode() == KeyEvent.VK_9){
+                }else if (e.getKeyCode() == KeyEvent.VK_9 && cheat_mode){
                     System.out.println("set Ball Size to 9");
                     Ball.r = 40;
+                }else if (e.getKeyCode() == KeyEvent.VK_C){
+                    System.out.println("Cheat Model is on");
+                    cheat_mode = !cheat_mode;
+                }else if (e.getKeyCode() == KeyEvent.VK_N && cheat_mode && level != 6){
+                    System.out.println("Cheat: Go to the next level");
+                    level++;
+                    brick_line();
+                    paused = !paused;
+                    Game.ball.pos = new Point(Game.wid/2, Game.hei /2);
+                    if(Ball.move_y < 0){
+                        Ball.move_y *= -1;
+                    }
+                    new_lv = true;
+                }else if (e.getKeyCode() == KeyEvent.VK_A && cheat_mode){
+                    System.out.println("Add one extra live");
+                    lives++;
+                } else if (e.getKeyCode() == KeyEvent.VK_S){
+                    System.out.println("Make Screenshot");
+                    BufferedImage img = getScreenShot(SplashScreen.jf);
+                    CopyImagetoClipBoard ccb = new CopyImagetoClipBoard(img);
                 }
             }
         });
     }
 
+    /**************************************************************************************************************
+     **************************************************Painting Feature****************************************
+     **************************************************************************************************************/
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -108,7 +133,7 @@ public class Game extends JPanel implements IView{
         hei = A2.sp.jf.getHeight();
 
         g.setColor(Color.lightGray);
-        ImageIcon pencil = new ImageIcon(getClass().getResource("./backg.png"));
+        ImageIcon pencil = new ImageIcon(getClass().getResource("backg.png"));
         Image pencil_image = pencil.getImage();
         pencil_image.getScaledInstance(getWidth(),getHeight(),pencil_image.SCALE_DEFAULT);
         System.out.println("Game Started");
@@ -126,7 +151,14 @@ public class Game extends JPanel implements IView{
         }else if (paused && new_lv){
             g.drawString("Level Up!!: Press Esc to Continue", getWidth()/2 - 20, getHeight()/2 - 20);
             //Font
+        }else if (cheat_mode){
+            g.setFont(new Font ("Arial", Font.BOLD, 20));
+            g.setColor(Color.RED);
+            g.drawString("Cheat Mode is on :)", getWidth()/2 , 20);
+            //Font
         }
+        g.setColor(Color.lightGray);
+        g.setFont(new Font ("Arial", Font.BOLD, 20));
         g.drawString("LIFE REMAINING: " + lives, 10, 20);
         g.drawString("FPS: " + FPS, 10, 40);
         g.drawString("Speed: " + Ball.vol, 10, 60);
@@ -154,6 +186,10 @@ public class Game extends JPanel implements IView{
         }
 
     }
+
+    /**************************************************************************************************************
+     **************************************************Helper Function****************************************
+     **************************************************************************************************************/
 
     public int get_remain(){
         int re = 0;
@@ -208,12 +244,17 @@ public class Game extends JPanel implements IView{
             return Color.GREEN.darker();
         } else if (lv == 5){
             return Color.blue.brighter();
+        } else if (lv == 6){
+            return Color.PINK.darker();
         } else {
             won_game = true;
             return Color.lightGray;
         }
     }
 
+    /**************************************************************************************************************
+     **************************************************Refreshing Function****************************************
+     **************************************************************************************************************/
 
     public void reset(){
         mv = new Mover(getWidth(),getHeight());
@@ -224,27 +265,25 @@ public class Game extends JPanel implements IView{
 
     public void refresh(int width,int height) {
 
+        /*Ball follow wall*/
+        if(ball.pos.x > width){
+            ball.pos.x = width;
+            ball.move_x *= -1;
+        }
+
         this.wid=width;
         this.hei=height;
 
-        SCALEX = (int) Math.ceil((double) width / 500);
+        SCALEX = (int) Math.ceil((double) width / 100);
         SCALEY = (int) Math.ceil((double) height / 900);
-        Brick.wid = 25 * SCALEX;
-        Brick.hei = 20 * SCALEY;
+        Brick.wid = 6 * SCALEX;
+        Brick.hei = 35 * SCALEY;
         Brick.gap = Brick.wid / 5;
         if(!b_list.isEmpty()){
             resize_allb(Brick.wid,Brick.hei,Brick.wid / 5);
         }
 
 
-//        PADDLE_WIDTH = 150*SCALEX;
-//        PADDLE_HEIGHT = 25*SCALEX;
-//        BLOCK_WIDTH = 80*SCALEX;
-//        BLOCK_HEIGHT = 40*SCALEY;
-//        BALL_WIDTH = 30*SCALEX;
-//        BALL_HEIGHT = 30*SCALEX;
-//        PADDLE_MAX_LEFT = 0;
-//        PADDLE_MAX_RIGHT = GAME_WIDTH-PADDLE_WIDTH;
     }
 
     @Override
@@ -259,13 +298,17 @@ public class Game extends JPanel implements IView{
                 Brick b = b_list.get(counterb);
                 b.wid = w;
                 b.pos.x = (int) (x*(w+g)+ wid / 5);
-
-                //System.out.println();
-                //b.pos.y =  (y*(h+20)+50);
                counterb++;
             }
         }
         last_paint = System.nanoTime();
         repaint();
+    }
+
+    public static BufferedImage getScreenShot(Component component)    //used to get the current image drawn on the screen
+    {
+        BufferedImage image = new BufferedImage(component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_RGB);
+        component.paint(image.getGraphics());   // paints into image's Graphics
+        return image;
     }
 }
