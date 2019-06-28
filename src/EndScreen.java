@@ -17,7 +17,7 @@ public class EndScreen extends JWindow {
 
     public EndScreen() {
         Container ct = getContentPane();
-        setSize(400, 500);
+        setSize(350, 500);
 
         JPanel panel = new JPanel();
         panel.setBorder(new EtchedBorder());
@@ -27,13 +27,13 @@ public class EndScreen extends JWindow {
         ct.add(panel);
 
         JLabel label1 = new JLabel("I Hope You Enjoyed the Game");
-        label1.setFont(new Font("Ariel", Font.BOLD, 20));
+        label1.setFont(new Font("Ariel", Font.BOLD, 18));
         label1.setBounds(40, 20, 300, 450);
         panel.add(label1);
 
         JLabel label2 = new JLabel("Your End Score: " + Game.game_score);
         label2.setBounds(40, 60, 300, 450);
-        label2.setFont(new Font("Ariel", Font.BOLD, 18));
+        label2.setFont(new Font("Ariel", Font.BOLD, 16));
         label2.setForeground(Color.YELLOW);
         panel.add(label2);
 

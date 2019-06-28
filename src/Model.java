@@ -19,15 +19,15 @@ public class Model extends Thread {
             @Override
             public void run() {
                 if(!Game.paused && Game.running && !Game.new_lv) {
-                    gm.ball.delta_move();
+                    Game.ball.delta_move();
                 }
                 if(Game.b_list.isEmpty()){
-                    gm.level++;
+                    Game.level++;
                     gm.brick_line();
-                    gm.paused = !gm.paused;
-                    gm.ball.pos = new Point(A2.sp.jf.getWidth()/2, A2.sp.jf.getHeight()/2);
-                    if(gm.ball.move_y < 0){
-                        gm.ball.move_y *= -1;
+                    Game.paused = !Game.paused;
+                    Game.ball.pos = new Point(Game.wid/2, Game.hei /2);
+                    if(Ball.move_y < 0){
+                        Ball.move_y *= -1;
                     }
                     gm.new_lv = true;
                     gm.repaint();
@@ -49,7 +49,7 @@ public class Model extends Thread {
                 SplashScreen.gm.repaint();
                 gm.last_paint = System.nanoTime();
                 try {
-                    Thread.sleep((long) (1000 / Game.FPS));
+                    Thread.sleep((long) (500 / Game.FPS));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
