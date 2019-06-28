@@ -2,16 +2,22 @@ import java.awt.*;
 
 
 public class Brick {
-    public int wid;
-    public int hei = 20;
+    public static int wid;
+    public static int hei ;
+    public static int gap ;
     public Color b_color = Color.RED;
     private Game gm;
     public Point pos = new Point(1,1);
     public boolean hitted = false;
+    public boolean dead = false;
 
     public Brick(Game pgm){
         this.gm = pgm;
         wid = pgm.getSize().width / gm.num_per_row;
+    }
+
+    private void set_dead(){
+        dead = true;
     }
 
     public void rebound(Rectangle ball_rec){
@@ -31,6 +37,7 @@ public class Brick {
             hitted = true;
             gm.game_score+= 3;
             Ball.move_y *= -1;
+
         }
     }
 

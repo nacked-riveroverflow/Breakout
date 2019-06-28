@@ -23,7 +23,7 @@ public class Model extends Thread {
                 }
                 if(Game.b_list.isEmpty()){
                     gm.level++;
-                    gm.brick_line(gm.num_per_row);
+                    gm.brick_line();
                     gm.paused = !gm.paused;
                     gm.ball.pos = new Point(A2.sp.jf.getWidth()/2, A2.sp.jf.getHeight()/2);
                     if(gm.ball.move_y < 0){

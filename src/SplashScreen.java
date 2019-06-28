@@ -74,7 +74,18 @@ public class SplashScreen extends JWindow
         jf.setLayout(new BorderLayout());
 
         gm = new Game(jf.getSize().width,jf.getSize().height);
+        //gm.refresh(jf.getSize().width,jf.getSize().height);
         jf.add(gm,BorderLayout.CENTER);
+
+        jf.addComponentListener(new ResizeController());
+
+    }
+
+    private class ResizeController extends ComponentAdapter {
+
+        public void componentResized(ComponentEvent e) {
+            A2.sp.gm.refresh(e.getComponent().getWidth(),e.getComponent().getHeight());
+        }
     }
 
 

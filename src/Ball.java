@@ -53,6 +53,7 @@ public class Ball implements IView {
             return;
         }
 
+
         Rectangle ball_area = new Rectangle(pos.x - r, pos.y - r, 2*r, 2*r);
         Boolean hitted = A2.sp.gm.mv.hit_test(ball_area);
         if(hitted){
@@ -60,12 +61,17 @@ public class Ball implements IView {
             move_y *= -1;
         }
 
+        /*Test Hitting Bricks */
         for(int i = 0; i < Game.b_list.size();i++){
             Brick get_b = Game.b_list.get(i);
-            get_b.rebound(ball_area);
+            if(get_b.dead){
+                continue;
+            }
 
+            get_b.rebound(ball_area);
             if(get_b.hitted){
-                Game.b_list.remove(i);
+                get_b.dead = true;
+                //Game.b_list.remove(i);
             }
 
         }

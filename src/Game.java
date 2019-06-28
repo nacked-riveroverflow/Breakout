@@ -27,7 +27,11 @@ public class Game extends JPanel implements IView{
     public static int FPS = 25;
     public static ArrayList<Brick> b_list;
     public static int level = 1;
-    public int num_per_row = 2;
+    public int num_per_row = 10;
+
+    /*For Resizing */
+    public int SCALEX = (int) Math.ceil((double) wid / 900);
+    public int SCALEY = (int) Math.ceil((double) wid / 900);
 
     public Game(int widt, int heig){
         wid = A2.sp.jf.getWidth();
@@ -83,6 +87,15 @@ public class Game extends JPanel implements IView{
                 }else if (e.getKeyCode() == KeyEvent.VK_6){
                     System.out.println("set Paddle Size to 6");
                     Mover.width = (int)(A2.sp.jf.getSize().width / 5);
+                }else if (e.getKeyCode() == KeyEvent.VK_7){
+                    System.out.println("set Ball Size to 7");
+                    Ball.r = 10;
+                }else if (e.getKeyCode() == KeyEvent.VK_8){
+                    System.out.println("set Ball Size to 8");
+                    Ball.r = 25;
+                }else if (e.getKeyCode() == KeyEvent.VK_9){
+                    System.out.println("set Ball Size to 9");
+                    Ball.r = 40;
                 }
             }
         });
@@ -118,16 +131,38 @@ public class Game extends JPanel implements IView{
         g.drawString("FPS: " + FPS, 10, 40);
         g.drawString("Speed: " + Ball.vol, 10, 60);
         g.drawString("Score: " + game_score, 10, 80);
-        g.drawString("Bricks Remained: " + b_list.size(), 10, 100);
+        g.drawString("Bricks Remained: " + get_remain(), 10, 100);
+        g.drawString("Current at Level: " + level, 10, 120);
         mv.draw_mover(g);
         ball.draw_ball(g);
 
-        if(b_list.size() > 0){
-              for(int i = 0; i < b_list.size(); i++){
-                b_list.get(i).draw_brick(g);
+        if(running) {
+            if (b_list.size() > 0) {
+                for (int i = 0; i < b_list.size(); i++) {
+                    //b_list.get(i).wid = (int) ((0.8 * getWidth() - 100) / num_per_row);
+                    //int ori_gap = b_list.get(i).gap;
+                    //int ori_width =b_list.get(i).gap * 20;
+                    //b_list.get(i).gap = b_list.get(i).wid/20;
+
+                    //b_list.get(i).pos.x += (int) ((getWidth() - ori_width));
+                    if(!b_list.get(i).dead) {
+                        b_list.get(i).draw_brick(g);
+                    }
+                    //check
+                }
             }
         }
 
+    }
+
+    public int get_remain(){
+        int re = 0;
+        for(int i = 0; i < b_list.size(); i++){
+            if(!b_list.get(i).dead){
+                re++;
+            }
+        }
+        return re;
     }
 
     public void game_run(){
@@ -141,20 +176,21 @@ public class Game extends JPanel implements IView{
         gameThread.start();
     }
 
-    public void brick_line(int num){
+    public void brick_line(){
         b_list = new ArrayList<Brick>();
 
-        double single_wei = (0.8 * wid - 100) / num ;
-        int gap = 10;
-        int h = 30;
+        //double single_wei = (0.8 * wid - 100) / num_per_row ;
+        double single_wei = Brick.wid;
+        int gap = Brick.gap;
+        //int h = 30;
         for (int y=0; y<level; y++) {
-            for (int x=0; x<num; x++) {
+            for (int x=0; x<num_per_row; x++) {
                 Brick b = new Brick(this);
                 b.b_color =  get_color_bylevel(y + 1);
                 b.pos.x = (int) (x*(single_wei+gap)+wid / 5);
-                b.pos.y =  (y*(h+gap)+50);
+                b.pos.y =  (y*(Brick.hei+gap)+50);
                 System.out.println("The brick is at " + b.pos.x);
-                b.hei =  h;
+                //b.hei =  h;
                 b.wid = (int) single_wei;
                 b_list.add(b);
             }
@@ -183,16 +219,53 @@ public class Game extends JPanel implements IView{
         mv = new Mover(getWidth(),getHeight());
         ball = new Ball(getWidth(),getHeight());
         game_score = 0;
-        brick_line(num_per_row);
-        /*gameThread = new Model(this);
-        gameThread.addView(ball);
-        gameThread.addView(mv);
-        gameThread.addView(this);*/
-        //Reset breaksl
+        brick_line();
+    }
+
+    public void refresh(int width,int height) {
+
+        this.wid=width;
+        this.hei=height;
+
+        SCALEX = (int) Math.ceil((double) width / 500);
+        SCALEY = (int) Math.ceil((double) height / 900);
+        Brick.wid = 25 * SCALEX;
+        Brick.hei = 20 * SCALEY;
+        Brick.gap = Brick.wid / 5;
+        if(!b_list.isEmpty()){
+            resize_allb(Brick.wid,Brick.hei,Brick.wid / 5);
+        }
+
+
+//        PADDLE_WIDTH = 150*SCALEX;
+//        PADDLE_HEIGHT = 25*SCALEX;
+//        BLOCK_WIDTH = 80*SCALEX;
+//        BLOCK_HEIGHT = 40*SCALEY;
+//        BALL_WIDTH = 30*SCALEX;
+//        BALL_HEIGHT = 30*SCALEX;
+//        PADDLE_MAX_LEFT = 0;
+//        PADDLE_MAX_RIGHT = GAME_WIDTH-PADDLE_WIDTH;
     }
 
     @Override
     public void updateView() {
+        repaint();
+    }
+
+    public void resize_allb(int w, int h, int g){
+        int counterb = 0;
+        for (int y=0; y<level; y++) {
+            for (int x=0; x<num_per_row; x++) {
+                Brick b = b_list.get(counterb);
+                b.wid = w;
+                b.pos.x = (int) (x*(w+g)+ wid / 5);
+
+                //System.out.println();
+                //b.pos.y =  (y*(h+20)+50);
+               counterb++;
+            }
+        }
+        last_paint = System.nanoTime();
         repaint();
     }
 }
