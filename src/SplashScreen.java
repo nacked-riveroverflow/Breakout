@@ -74,11 +74,12 @@ public class SplashScreen extends JWindow
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setBackground(Color.lightGray);
         jf.setResizable(true);
-        jf.setMinimumSize(new Dimension(1280,768));
-        jf.setPreferredSize(new Dimension(1280,768));
+        jf.setMinimumSize(new Dimension(1000,668));
+        jf.setPreferredSize(new Dimension(1280,668));
+        jf.setSize(new Dimension(1280,668));
         jf.setLayout(new BorderLayout());
 
-        gm = new Game(jf.getWidth(),jf.getHeight());
+        gm = new Game(jf.getPreferredSize().width,jf.getPreferredSize().height);
         jf.add(gm,BorderLayout.CENTER);
     }
 
